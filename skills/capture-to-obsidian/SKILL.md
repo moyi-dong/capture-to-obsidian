@@ -64,6 +64,10 @@ plugin, or an API. Prefer filesystem tools already available to the agent.
 
 ### Determine the source
 
+- Before capturing dictated or noisy input, apply the core `speech-fix` rule:
+  use the full context to silently repair only high-confidence transcription
+  errors while preserving the user's intent, viewpoint, and exact tokens; if
+  `$speech-fix` is installed, invoke it first.
 - Treat ordinary user text as the original note content.
 - Treat phrases such as “save this link/ID” as capture requests, not unrelated
   tasks.
