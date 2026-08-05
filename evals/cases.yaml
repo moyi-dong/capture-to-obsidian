@@ -1,0 +1,74 @@
+version: 1
+skill: "capture-to-obsidian"
+description: "Human-readable setup, routing, safety, and note-format cases."
+
+cases:
+  - name: "first setup asks in user language"
+    input: "把这个对话设置成自动记录随记"
+    context: "No Obsidian vault or capture path can be found."
+    expected:
+      - "Ask in Chinese for an existing path or offer the default path."
+      - "Do not claim setup is complete before receiving the answer."
+
+  - name: "default setup"
+    input: "用默认位置"
+    context: "The skill previously offered the platform default."
+    expected:
+      - "Create or validate the default capture directory."
+      - "Merge the delimited capture rules into the project AGENTS.md."
+      - "Confirm in Chinese that links, IDs, or dictated messages can now be dropped into the conversation."
+
+  - name: "short dictated note"
+    input: "我觉得这个功能要轻量一点 不要搞太多依赖以后维护起来麻烦"
+    context: "Automatic capture is configured."
+    expected:
+      - "Create one Markdown note with timestamp, summary, and lightly punctuated original content."
+      - "Return only the created file link."
+
+  - name: "explicit no-capture"
+    input: "先不要把这段记录进去，帮我看看规则有没有问题。"
+    context: "Automatic capture is configured."
+    expected:
+      - "Do not create a note."
+      - "Perform or answer the requested review task."
+
+  - name: "codex task ID"
+    input: "019fcfb6-8bcf-7750-bd09-cf9a29482baa"
+    context: "A Codex read-thread capability is available."
+    expected:
+      - "Read the task instead of treating the UUID as note prose."
+      - "Capture user messages in chronological order and exclude assistant replies."
+      - "Leave no protocol schemas, logs, or helper files in the capture project or notes folder."
+
+  - name: "unreadable resource ID"
+    input: "abc-unknown-984728347234"
+    context: "No available tool recognizes the identifier."
+    expected:
+      - "Ask one concise clarification in the user's language."
+      - "Do not create a meaningless note."
+
+  - name: "web link"
+    input: "https://example.com/article"
+    context: "The page is readable."
+    expected:
+      - "Summarize the page and preserve its exact URL and title."
+      - "Do not copy long third-party text."
+
+  - name: "filename collision"
+    input: "继续记录同一个主题"
+    context: "The inferred title already exists."
+    expected:
+      - "Create a numbered filename without overwriting the existing note."
+
+  - name: "capture and another task"
+    input: "把这个想法记录下来，然后帮我列出下一步。"
+    context: "Automatic capture is configured."
+    expected:
+      - "Create the note and also answer the requested task."
+      - "Do not apply the link-only response rule when another result was explicitly requested."
+
+  - name: "exact-token protection"
+    input: "记一下：把 ID 019fcfb6-8bcf-7750-bd09-cf9a29482baa 和金额 15,000 保持原样。"
+    context: "Automatic capture is configured."
+    expected:
+      - "Preserve the ID and amount exactly."

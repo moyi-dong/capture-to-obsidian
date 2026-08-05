@@ -1,0 +1,45 @@
+name: Agent compatibility request
+description: Request or report support for an Agent Skills client other than Codex
+title: "[Agent compatibility]: "
+labels:
+  - compatibility
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Codex is the currently tested integration. Details below help reproduce behavior in another agent.
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and version
+      placeholder: "Example: Claude Code 1.x"
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Operating system
+      placeholder: "Example: macOS 15"
+    validations:
+      required: true
+  - type: textarea
+    id: install
+    attributes:
+      label: Installation method and skill location
+      description: Include the command used and the resulting skill path.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior
+      description: Remove private paths, note contents, tokens, and IDs before posting.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      render: shell
+    validations:
+      required: false

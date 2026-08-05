@@ -1,0 +1,7 @@
+interface:
+  display_name: "Capture to Obsidian"
+  short_description: "Capture links, IDs, and dictated notes to Obsidian"
+  default_prompt: "Use $capture-to-obsidian to configure or capture this content into my Obsidian notes."
+
+policy:
+  allow_implicit_invocation: true
