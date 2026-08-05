@@ -8,6 +8,10 @@
 - Treat every user message without another explicit task as a new Obsidian note.
   This includes ordinary or dictated text, URLs, UUIDs, long numbers, Codex task
   or chat IDs, document IDs, and similar resources.
+- Before capturing dictated or noisy input, apply the core `speech-fix` rule:
+  infer intent from full context, silently repair only high-confidence ASR
+  errors, and preserve the user's viewpoint and exact tokens; if `$speech-fix`
+  is installed, invoke it first.
 - If the user explicitly asks not to record something, do not save it. If the
   user requests both capture and another task, do both.
 - Resolve readable links and identifiers before recording. Preserve user-authored

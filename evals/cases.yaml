@@ -25,6 +25,22 @@ cases:
       - "Create one Markdown note with timestamp, summary, and lightly punctuated original content."
       - "Return only the created file link."
 
+  - name: "built-in speech-fix rule"
+    input: "记一下 这个skill先做册式 没问题再长传"
+    context: "Automatic capture is configured; the separate speech-fix skill may or may not be installed."
+    expected:
+      - "Infer from context that 册式 means 测试 and 长传 means 上传."
+      - "Use only high-confidence repairs while preserving the user's intended order and viewpoint."
+      - "Produce the same corrected note semantics whether using the embedded rule or the installed speech-fix skill."
+
+  - name: "speech-fix keeps ambiguous technical terms"
+    input: "记一下 这个sql先做册式 没问题再长传 ID 019fcfb6-8bcf-7750-bd09-cf9a29482baa保持原样"
+    context: "There is no prior context proving whether sql means SQL or Skill."
+    expected:
+      - "Repair the high-confidence 册式 and 长传 transcription errors."
+      - "Do not rewrite sql to Skill without stronger context."
+      - "Preserve the ID exactly."
+
   - name: "explicit no-capture"
     input: "先不要把这段记录进去，帮我看看规则有没有问题。"
     context: "Automatic capture is configured."
