@@ -10,36 +10,16 @@
 
 [English](README.en.md)
 
-## 在 Codex 中安装
+## 快速开始
 
-```bash
-npx skills add moyi-dong/capture-to-obsidian --skill capture-to-obsidian -g -a codex -y
-```
-
-为了获得更稳定的语音纠错效果，推荐同时安装配套 Skill：
-
-```bash
-npx skills add moyi-dong/speech-fix --skill speech-fix -g -a codex -y
-```
-
-新建一个专门用于随记的 Codex 项目，然后输入：
+1. 安装 Obsidian 和 Codex App，新建一个专用项目，最好使用工作区模式，并允许 Codex 访问 Obsidian 目录。
+2. 把下面这句话发给 Codex：
 
 ```text
-$capture-to-obsidian 把这个对话配置成自动记录到 Obsidian 的随记入口。
+请从 GitHub 全局安装 `moyi-dong/speech-fix` 和 `moyi-dong/capture-to-obsidian`，并把当前项目配置成自动记录到 Obsidian 的入口；找不到目录时用中文询问我，配置完成后告诉我。
 ```
 
-Skill 会先寻找本机已有的 Obsidian Vault。找不到时，它会使用你的语言询问
-路径，并允许使用“文稿”目录下的默认位置。随后，它会为当前专用项目配置一段
-简短的 `AGENTS.md` 规则，让以后的消息自动进入记录流程。
-
-配置完成后，只需向这个对话框发送：
-
-- 语音转写或普通文字；
-- 网页链接；
-- Codex 任务或聊天 ID；
-- 文档 ID、UUID 或其他能够读取的资源标识符。
-
-在这个专用对话里，不需要每次再说“保存一下”。
+以后直接发送语音、文字、链接、Codex 对话链接或 ID 即可。它会尽量保留原话，并自动添加标题、摘要和必要的小标题；语音转写错误会通过 `speech-fix` 结合上下文纠正。
 
 ## 内置 speech-fix 纠错
 
