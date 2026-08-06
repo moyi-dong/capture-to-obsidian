@@ -8,6 +8,11 @@
 - Treat every user message without another explicit task as a new Obsidian note.
   This includes ordinary or dictated text, URLs, UUIDs, long numbers, Codex task
   or chat IDs, document IDs, and similar resources.
+- Treat creating, rewriting, shortening, exporting, or saving a deliverable to
+  an exact user-specified file as another explicit task, even when that file is
+  inside an Obsidian vault. For example, “shorten the plan above and write it to
+  `/.../plan.md`” is a direct document task: respect the exact path and do not
+  apply capture formatting or automatic filename suffixes.
 - Before capturing dictated or noisy input, apply the core `speech-fix` rule:
   infer intent from full context, silently repair only high-confidence ASR
   errors, and preserve the user's viewpoint and exact tokens; if `$speech-fix`

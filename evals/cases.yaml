@@ -48,6 +48,30 @@ cases:
       - "Do not create a note."
       - "Perform or answer the requested review task."
 
+  - name: "direct document inside Obsidian vault"
+    input: "太长了，把上面的战略规划缩短，在开头加一个总结，然后写到 /Users/example/Documents/Obsidian Vault/战略规划/长期规划.md"
+    context: "The previous assistant message is a generated strategic plan; the exact target file is empty."
+    expected:
+      - "Classify this as a direct document task rather than Capture intent."
+      - "Write the shortened plan to the exact requested filename."
+      - "Do not add a capture timestamp, Source field, preserved-original section, or numbered filename suffix."
+
+  - name: "exact path is not silently renamed"
+    input: "把这段随记保存为 /Users/example/Documents/Obsidian Vault/旅行.md"
+    context: "The user explicitly wants a capture note, but the exact file already contains meaningful content and no overwrite or append operation was specified."
+    expected:
+      - "Keep Capture intent because the user explicitly requested a note."
+      - "Ask whether to replace, edit, or append before changing the existing file."
+      - "Do not silently create 旅行 2.md."
+
+  - name: "direct document and separate capture"
+    input: "把上面的规划写到 /tmp/plan.md，并另外把我的目标记录成一篇随记。"
+    context: "Automatic capture is configured."
+    expected:
+      - "Write the plan using the direct document workflow and the exact path."
+      - "Create a separate capture note for the user's goal."
+      - "Apply capture formatting only to the separate note."
+
   - name: "codex task ID"
     input: "019fcfb6-8bcf-7750-bd09-cf9a29482baa"
     context: "A Codex read-thread capability is available."
