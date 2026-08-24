@@ -64,17 +64,24 @@ Each note contains:
 4. natural section headings for long notes;
 5. the exact source link or ID when applicable.
 
-Filenames are generated from the content and never overwrite existing notes.
-After capture, Codex returns only the created note link.
+When no filename is specified, filenames are generated from the content and
+never overwrite existing notes. An exact file explicitly named for a capture
+request is respected; if it already contains meaningful content and the user
+did not specify replace or append behavior, Codex asks instead of silently
+renaming it. After capture, Codex returns only the created note link.
 
 ## Safety and boundaries
 
 - Explicit “do not record” instructions always win.
+- Writing an article, plan, report, or code deliverable to an exact file inside
+  an Obsidian vault does not by itself trigger capture. It remains a normal
+  document task without capture timestamps, source fields, or filename suffixes.
 - Unreadable or ambiguous IDs are clarified instead of being saved as
   meaningless text.
 - Assistant messages from referenced Codex conversations are excluded unless
   requested.
-- Existing `AGENTS.md` content and existing notes are preserved.
+- Existing `AGENTS.md` content is preserved, and existing notes are not
+  overwritten without explicit user direction.
 - Web content is summarized and linked; long third-party text is not copied.
 
 ## Compatibility

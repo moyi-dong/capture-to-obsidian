@@ -1,16 +1,20 @@
 ---
 name: capture-to-obsidian
 description: >-
-  Capture thoughts, dictated or speech-to-text input, URLs, Codex task or chat
-  IDs, document IDs, UUIDs, and other readable resources as structured Markdown
-  notes in an Obsidian folder. Use when the user asks to save, record, capture,
-  or add something to Obsidian; when configuring an automatic capture
-  conversation; or when a dedicated capture project's instructions say that
-  messages without another explicit task should become notes. Preserve the
-  user's meaning and original words, resolve links or IDs before recording, ask
-  for the Obsidian path in the user's language when it is not configured, avoid
-  overwrites, and return the created note link. 中文触发：记录随记、保存到
-  Obsidian、语音随记、一键记录、保存链接、保存任务或聊天 ID、自动记录。
+  Capture user-authored thoughts, dictated or speech-to-text input, URLs, Codex
+  task or chat IDs, document IDs, UUIDs, and other readable resources as new
+  structured Markdown notes in Obsidian. Use only when the user explicitly asks
+  to record or capture content as a note, when configuring automatic capture,
+  or when a dedicated capture project's instructions treat a message with no
+  other explicit task as a note. Do not invoke merely because an exact output
+  path is inside an Obsidian vault: creating, rewriting, exporting, or saving an
+  article, plan, report, code, or other deliverable to a user-specified file is
+  a direct document task unless the user separately asks to capture it as a
+  note. Preserve the user's meaning and original words, resolve links or IDs
+  before recording, avoid unintended overwrites, and return the created note
+  link. 中文触发：
+  记录成随记、保存为笔记、捕获到 Obsidian 收件箱、保存链接或任务 ID 为随记、
+  配置自动记录。
 ---
 
 # Capture to Obsidian
@@ -20,14 +24,25 @@ plugin, or an API. Prefer filesystem tools already available to the agent.
 
 ## Select the workflow
 
-1. Run **Setup** when the user asks to configure automatic capture or when no
-   capture directory is configured.
-2. Run **Capture** when the user explicitly asks to record something, or when a
-   configured dedicated capture project treats messages without another task as
-   notes.
-3. Do not capture an explicit unrelated task unless the user also asks to record
-   it. If both are requested, complete both.
-4. Treat an explicit instruction not to save or record as highest priority.
+1. Treat an explicit instruction not to save or record as highest priority.
+2. Resolve contextual references such as “this,” “the above,” or “it” before
+   classifying the request.
+3. Classify the intent before running setup or capture:
+   - **Capture:** record user-authored content or a readable resource as a new
+     note, or apply a dedicated capture project's default to a message with no
+     other explicit task.
+   - **Direct document:** create, rewrite, shorten, export, or save a deliverable
+     to an exact user-specified file. A path inside an Obsidian vault does not
+     change this classification.
+   - **Both:** perform another task and separately capture content as a note.
+4. For **Direct document**, stop using this skill and follow the normal file or
+   document workflow. Do not add capture timestamps, source fields, preserved
+   original-text sections, inferred titles, collision suffixes, or link-only
+   responses.
+5. Run **Setup** when the user asks to configure automatic capture, or when a
+   Capture request has no configured capture directory.
+6. Run **Capture** for Capture intent. For Both intent, complete both workflows
+   and return both results.
 
 ## Setup
 
@@ -124,15 +139,21 @@ Lightly cleaned but substantively complete original content.
 
 ### Write safely
 
-1. Resolve the configured capture directory to an absolute path and verify it
-   still exists and is writable. If not, return to **Setup**.
-2. Write `<title>.md` without overwriting an existing file. If it exists, append
-   ` 2`, ` 3`, and so on until the filename is unused.
-3. Use a safe file-editing tool and preserve all other files.
-4. Keep fetched data, protocol schemas, logs, and helper files out of both the
+1. Use an exact output file only when the user explicitly names it for a Capture
+   request. Otherwise resolve the configured capture directory to an absolute
+   path and verify it still exists and is writable. If not, return to **Setup**.
+2. For an inferred capture title, write `<title>.md` without overwriting an
+   existing file. If it exists, append ` 2`, ` 3`, and so on until the filename
+   is unused.
+3. Treat a user-specified exact file path as a contract: create it when absent or
+   empty; follow an explicit replace, edit, or append instruction; and ask one
+   concise question before destroying meaningful existing content when the
+   requested operation is unclear. Never silently change the filename.
+4. Use a safe file-editing tool and preserve all other files.
+5. Keep fetched data, protocol schemas, logs, and helper files out of both the
    capture project and the Obsidian folder. Use a system temporary directory for
    unavoidable intermediates and remove them after extracting the needed text.
-5. After a successful capture with no other requested output, reply with only a
+6. After a successful capture with no other requested output, reply with only a
    clickable link to the created file. If the user also requested another task,
    include the link while returning that task's result.
 
